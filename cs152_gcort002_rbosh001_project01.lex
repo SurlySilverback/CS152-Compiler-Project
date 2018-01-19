@@ -1,8 +1,8 @@
 /*******************************************************************************
  *  CS152: Design of Compilers
- *  Gabriel F. Cortez and Rick Boshae
+ * Gabriel F. Cortez and Rick Boshae
  *
- *  Project Phase 1: LEXICAL ANALYZER
+ * Project Phase 1: LEXICAL ANALYZER
  *
  * Usage: (1) $ flex cs152_gcort002_rbosh001_project01.lex
  *        (2) $ gcc lex.yy.c -lfl
@@ -23,6 +23,141 @@ DIGIT	[0-9]
 CHAR	[a-zA-Z]
 
 %%
+
+"function" {
+              printf("FUCNTION\n");
+              currentColumn += yyleng;
+           }
+
+"beginparams" {
+              printf("BEGIN_PARAMS\n");
+              currentColumn += yyleng;
+              }
+
+"endparams" {
+            printf("END_PARAMS\n");
+            currentColumn += yyleng;
+            }
+
+"beginlocals" {
+            printf("BEGIN_LOCALS\n");
+            currentColumn += yyleng;
+            }
+
+"endlocals" {
+            printf("END_LOCALS\n");
+            currentColumn += yyleng;
+            }
+
+"beginbody" {
+            printf("BEGIN_BODY\n");
+            currentColumn += yyleng;
+            }
+
+"endbody" {
+          printf("END_BODY\n");
+          currentColumn += yyleng;
+          }
+
+"endbody" {
+          printf("END_BODY\n");
+          currentColumn += yyleng;
+          }
+
+"integer" {
+          printf("INTEGER\n");
+          currentColumn += yyleng;
+          }
+
+"array" {
+        printf("ARRAY\n");
+        currentColumn += yyleng;
+        }
+
+"of" {
+      printf("OF\n");
+      currentColumn += yyleng;
+      }
+
+"if" {
+        printf("IF\n");
+        currentColumn += yyleng;
+        }
+
+"endif" {
+        printf("ENDIF\n");
+        currentColumn += yyleng;
+        }
+
+"else" {
+        printf("ELSE\n");
+        currentColumn += yyleng;
+        }
+
+"while" {
+        printf("WHILE\n");
+        currentColumn += yyleng;
+        }
+
+"do" {
+        printf("DO\n");
+        currentColumn += yyleng;
+        }
+
+"beginloop" {
+        printf("BEGINLOOP\n");
+        currentColumn += yyleng;
+        }
+
+"endloop" {
+        printf("ENDLOOP\n");
+        currentColumn += yyleng;
+        }
+
+"continue" {
+        printf("CONTINUE\n");
+        currentColumn += yyleng;
+        }
+
+"read" {
+        printf("READ\n");
+        currentColumn += yyleng;
+       }
+
+"write" {
+       printf("WRITE\n");
+       currentColumn += yyleng;
+      }
+
+"and" {
+        printf("AND\n");
+        currentColumn += yyleng;
+       }
+
+"or" {
+       printf("OR\n");
+       currentColumn += yyleng;
+      }
+
+"not" {
+        printf("NOT\n");
+        currentColumn += yyleng;
+       }
+
+"true" {
+       printf("TRUE\n");
+       currentColumn += yyleng;
+      }
+
+"false" {
+       printf("FALSE\n");
+       currentColumn += yyleng;
+      }
+
+"return" {
+       printf("RETURN\n");
+       currentColumn += yyleng;
+      }
 
 "+" {
       printf("PLUS\n");
