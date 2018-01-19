@@ -1,7 +1,7 @@
 /****************************************************************
   CS152: Design of Compilers
   Gabriel F. Cortez and Rick Boshae
-  
+
   Project Phase 1: LEXICAL ANALYZER
 
 ****************************************************************/
@@ -17,8 +17,22 @@ int currentColumn = 1;
 DIGIT	[0-9]
 CHAR	[a-zA-Z]
 
-PLUS	[+]
-MINUS	[-]
-MULT	[*]
-DIV		[/]
-MOD		[%]
+%%
+
+"+"
+"-"
+"*"
+"/"
+"%"
+"=="
+"<>"
+"<"
+"<="
+">="
+";"
+":"
+","
+"("
+")"
+
+{DIGIT}*
