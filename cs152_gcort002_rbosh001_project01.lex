@@ -147,17 +147,17 @@ CHAR	[a-zA-Z]
 "true" {
        printf("TRUE\n");
        currentColumn += yyleng;
-      }
+        }
 
 "false" {
-       printf("FALSE\n");
-       currentColumn += yyleng;
-      }
+         printf("FALSE\n");
+         currentColumn += yyleng;
+        }
 
 "return" {
-       printf("RETURN\n");
-       currentColumn += yyleng;
-      }
+          printf("RETURN\n");
+          currentColumn += yyleng;
+          }
 
 "+" {
       printf("PLUS\n");
@@ -208,6 +208,18 @@ CHAR	[a-zA-Z]
       printf("GTE\n");
       currentColumn += yyleng;
     }
+
+{IDENTIFIER} {
+              printf("IDENT %s\n", yytext);
+              currentColumn += yyleng;
+             }
+
+{NUMBER}     {
+             printf("NUMBER %d\n", atoi(yytext));
+             currentColumn += yyleng;
+             }
+
+
 
 ";" {
       printf("SEMICOLON\n");
