@@ -19,8 +19,10 @@ int currentLine = 1;
 int currentColumn = 1;
 %}
 
-DIGIT	[0-9]
-CHAR	[a-zA-Z]
+DIGIT        	[0-9]
+CHAR	        [a-zA-Z]
+IDENTIFIER    []
+NUMBER        []
 
 %%
 
