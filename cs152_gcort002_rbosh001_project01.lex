@@ -124,3 +124,20 @@ CHAR	[a-zA-Z]
 "]"             { printf("R_SQUARE_BRACKET\n"); currentColumn += yyleng; }
 
 ":="            { printf("ASSIGN\n"); currentColumn += yyleng; }
+
+%%
+
+int main( int argc, char **argv )
+{
+  if ( argc > 0 )
+  {
+    yyin = fopen( argv[0], "r" );
+  }
+
+  else
+  {
+    yyin = stdin;
+  }
+
+  yylex();
+}
