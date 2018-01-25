@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  CS152: Design of Compilers
+ * CS152: Design of Compilers
  * Gabriel F. Cortez and Rick Boshae
  *
  * Project Phase 1: LEXICAL ANALYZER
@@ -19,10 +19,8 @@ int currentLine = 1;
 int currentColumn = 1;
 %}
 
-DIGIT        	[0-9]
-CHAR	        [a-zA-Z]
-IDENTIFIER    []
-NUMBER        []
+DIGIT	[0-9]
+CHAR	[a-zA-Z]
 
 %%
 
@@ -104,15 +102,18 @@ NUMBER        []
 
 ">="            { printf("GTE\n"); currentColumn += yyleng; }
 
-{IDENTIFIER}    { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
+{CHAR}{ {CHAR|DIGIT}*{"_"}*{CHAR|DIGIT}+ }*
+                { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
 
-{NUMBER}        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
+{DIGIT}+        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
 
 ";"             { printf("SEMICOLON\n"); currentColumn += yyleng; }
 
 ":"             { printf("COLON\n"); currentColumn += yyleng; }
 
 ","             { printf("COMMA\n"); currentColumn += yyleng; }
+
+"_"             { printf("UNDERSCORE\n"); currentColumn += yyleng; }
 
 "("             { printf("L_PAREN\n"); currentColumn += yyleng; }
 
