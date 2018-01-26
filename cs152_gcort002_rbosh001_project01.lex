@@ -21,10 +21,11 @@ int currentColumn = 1;
 
 DIGIT	[0-9]
 CHAR	[a-zA-Z]
+UNDERSCORE "_"
 
 %%
 
-"function"      { printf("FUCNTION\n"); currentColumn += yyleng; }
+"function"      { printf("FUNCTION\n"); currentColumn += yyleng; }
 
 "beginparams"   { printf("BEGIN_PARAMS\n"); currentColumn += yyleng; }
 
@@ -98,14 +99,11 @@ CHAR	[a-zA-Z]
 
 "<"             { printf("LT\n"); currentColumn += yyleng; }
 
+">"             { printf("GT\n"); currentColumn += yyleng; }
+
 "<="            { printf("LTE\n"); currentColumn += yyleng; }
 
 ">="            { printf("GTE\n"); currentColumn += yyleng; }
-
-{CHAR}{ {CHAR|DIGIT}*{"_"}*{CHAR|DIGIT}+ }*
-                { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
-
-{DIGIT}+        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
 
 ";"             { printf("SEMICOLON\n"); currentColumn += yyleng; }
 
@@ -125,19 +123,22 @@ CHAR	[a-zA-Z]
 
 ":="            { printf("ASSIGN\n"); currentColumn += yyleng; }
 
+
+( {CHAR} ( ({CHAR}|{DIGIT})* ({UNDERSCORE})* ({CHAR|DIGIT})+ )* )
+                { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
+
+{DIGIT}+        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
+
+{UNDERSCORE|{DIGIT} ({CHAR}|{DIGIT}|{UNDERSCORE})*
+                { printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter.\n" , lineNum, linePos, yytext); exit(0); }
+
+{CHAR} ( {CHAR}|{DIGIT}|{UNDERSCORE} )* {UNDERSCORE}
+                { printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore.\n" , lineNum, linePos, yytext); exit(0); }
+
 %%
+
 
 int main( int argc, char **argv )
 {
-  if ( argc > 0 )
-  {
-    yyin = fopen( argv[0], "r" );
-  }
-
-  else
-  {
-    yyin = stdin;
-  }
-
   yylex();
 }
