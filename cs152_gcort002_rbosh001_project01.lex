@@ -11,17 +11,17 @@
  *            stdin> Ctrl-D
 *******************************************************************************/
 
-%{/*Include library for atof() call */
-
-#include<math.h>
+%{
+#include<unistd.h>
 
 int currentLine = 1;
 int currentColumn = 1;
 %}
 
 DIGIT	[0-9]
-CHAR	[a-zA-Z]
-UNDERSCORE "_"
+CHAR [a-zA-Z]
+ID1 [a-zA-Z](([a-zA-Z]|[0-9_])*([a-zA-Z]|[0-9])+)*
+
 
 %%
 
@@ -123,20 +123,20 @@ UNDERSCORE "_"
 
 ":="            { printf("ASSIGN\n"); currentColumn += yyleng; }
 
-
-( {CHAR} ( ({CHAR}|{DIGIT})* ({UNDERSCORE})* ({CHAR|DIGIT})+ )* )
-                { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
+{ID1}           { printf("IDENT %s\n", yytext); currentColumn += yyleng; }
 
 {DIGIT}+        { printf("NUMBER %d\n", atoi(yytext)); currentColumn += yyleng; }
 
-{UNDERSCORE|{DIGIT} ({CHAR}|{DIGIT}|{UNDERSCORE})*
-                { printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter.\n" , lineNum, linePos, yytext); exit(0); }
+(_|{DIGIT})+{ID1}*  { printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter.\n" , currentLine, currentColumn, yytext); exit(0); }
 
-{CHAR} ( {CHAR}|{DIGIT}|{UNDERSCORE} )* {UNDERSCORE}
-                { printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore.\n" , lineNum, linePos, yytext); exit(0); }
+{ID1}+_+        { printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore.\n" , currentLine, currentColumn, yytext); exit(0); }
+
+[ \t]+          { currentColumn += yyleng; }
+[##].*          { currentColumn += yyleng; }
+"\n"            { currentLine++; currentColumn = 1; }
+.               { printf("Error at line %d, column %d: unrecognized symbol \" %s\" \n", currentLine, currentColumn, yytext); exit(0); }
 
 %%
-
 
 int main( int argc, char **argv )
 {
